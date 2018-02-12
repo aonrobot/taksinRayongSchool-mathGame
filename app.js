@@ -4,14 +4,15 @@ const mysql = require('mysql');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-const PORT = 3000;
+const PORT = 80;
 const HOST = 'localhost';
 
 const db = mysql.createConnection({
     host        :   'taksindbinstance.czv8vo5bfekg.ap-southeast-1.rds.amazonaws.com',
     user        :   'aonrobot',
     password    :   'AONBOtBOt.cpp',
-    database    :   'taksinmath'
+    database    :   'taksinmath',
+    port        :   3306
 });
 
 db.connect((err) => {
@@ -136,5 +137,5 @@ teacherNsp.on('connection', function(socket) {
 console.log('listening on localhost:3000');*/
 
 http.listen(PORT, function() {    
-    console.log('listening on localhost:3000');
+    console.log('listening on localhost:80');
 });
