@@ -1,0 +1,126 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Teacher | Matthayomtaksinrayong School</title>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/components/socket.io/socket.io.js"></script>
+    <script src="/components/jquery/dist/jquery.min.js"></script>
+
+    <style>
+        .footer{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            line-height: 60px;
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-warning" id="messageAlert" role="alert"></div>
+                <h3>Trigonometry Game<small> | Teacher Control</small></h3>
+                <hr>
+                <div class="card">
+                    <h5 class="card-header">แผงควบคุมเกมส์</h5>
+                    <div class="card-body">
+                        <button class="btn btn-success" id="startBtn">Start Game</button>
+                        <button class="btn btn-danger" id="stopBtn">Stop Game</button>
+                    </div>
+                </div>
+                
+                <hr>
+                สถานะ <h4 class="text-primary" id="gameStatus">เกมส์ใหม่</h4>
+                <hr>
+                <h4>รายชื่อของนักเรียนที่เข้ามาร่วมเกมส์ในขณะนี้ <small>ทั้งหมดจำนวน <span id="countStudent">0</span> คน</small></h4>
+                <br>
+                <div class="list-group" id="list2"></div>
+                <div class="row" id="list"></div>
+
+                
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">พัฒนาโดย อาจารย์กนกวรรณ จิตบรรจงจักร | โรงเรียนมัธยมตากสินระยอง | 2018</span>
+        </div>
+    </footer>
+
+    <script>
+        var socket = io('/teacher');
+
+        var studentLength = 0
+
+        $('#stopBtn').hide()
+
+        $('#startBtn').bind('click', function(){
+            if(studentLength < 2){
+                $('#messageAlert').html("จะสามารถเริ่มเกมส์ได้ต้องมีนักเรียนอยู่อย่างน้อย 2 คนนะครับ")
+            }else{
+                $.ajax({
+                    type: 'GET',
+                    url: '/startGame',
+                    success: function(data) {
+                        console.log('Start Game');
+                    }
+                });
+                $('#startBtn, #stopBtn').toggle();
+            }
+        })
+        $('#stopBtn').bind('click', function(){
+            $.ajax({
+                type: 'GET',
+                url: '/stopGame',
+                success: function(data) {
+                    console.log('Stop Game');
+                }
+            });
+            $('#startBtn, #stopBtn').toggle();
+        })
+
+        socket.on('message', function(data){
+            $('#messageAlert').html(data.message)
+        })
+
+        socket.on('gameStatus', function(data){
+
+                if(data.status === 'playing'){
+                    $('#gameStatus').html("เกมส์กำลังเล่นอยู่")
+                    $('#gameStatus').removeClass('text-primary').addClass('text-success')
+                    $('#startBtn').hide();
+                    $('#stopBtn').show();
+                }else if(data.status === 'stop'){
+                    $('#gameStatus').html("เกมส์ใหม่")
+                    $('#gameStatus').removeClass('text-success').addClass('text-primary')
+                    $('#startBtn').show();
+                    $('#stopBtn').hide();                       
+                }
+            })
+
+        socket.on('studentList', function(data){
+            $('#list').empty()
+            $('#countStudent').html(data.list.length)
+            studentLength = data.list.length
+            if(studentLength >= 2) $('#messageAlert').html("")
+            for(var i = 0; i < data.list.length; i++){
+                //$('#list').append('<a href="#" class="list-group-item list-group-item-action">' + data.list[i].name + '</a>')
+                $('#list').append('<div class="col-sm-2">\
+                                        <div class="card">\
+                                        <div class="card-body">\
+                                            <h5 class="card-title">' + data.list[i].name + '</h5>\
+                                            <footer class="blockquote-footer">Student</footer>\
+                                        </div>\
+                                        </div>\
+                                    </div>\
+                                ')
+            }
+        })
+    </script>
+</body>
+</html>

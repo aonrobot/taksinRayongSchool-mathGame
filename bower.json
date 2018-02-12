@@ -1,0 +1,17 @@
+{
+  "name": "beb",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Auttawut Wiriyakreng"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
