@@ -8,9 +8,9 @@ const PORT = 3000;
 const HOST = 'localhost';
 
 const db = mysql.createConnection({
-    host        :   '127.0.0.1',
-    user        :   'root',
-    password    :   'admin123',
+    host        :   'taksindbinstance.czv8vo5bfekg.ap-southeast-1.rds.amazonaws.com',
+    user        :   'aonrobot',
+    password    :   'AONBOtBOt.cpp',
     database    :   'taksinmath'
 });
 
