@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-md-12" style="margin-top:25px;">
                 <img src="/logo.png">
-                <h1>run{Math}run!! Game</h1>
+                <h1>run{Math}run!! Game <small>v1.5.0</small></h1>
                 <hr>
                 <div class="prepare text-center">
                     <h5>😆กรุณากรอกเลขที่ ก่อนเข้าเล่นค่ะ</h5>
@@ -105,7 +105,7 @@
                         $('.prepare').hide()
                         $('.waitingStart').hide()
                         $('.start').show()
-                        $('#player_name').html('<small>เลขที่</small> ' + name)
+                        $('#player_name').html('<small>เลขที่ </small> ' + name)
                     }
                     
                 }else if(data.status === 'stop'){
@@ -115,7 +115,9 @@
                     clickJoinGame = false;
 
                     $('.prepare').show()
-                    $('.message').empty().append('Game Was Stoped..')
+                    $('.message').empty().append('<div class="alert alert-success" role="alert">\
+                                                    เกมส์จบแล้วนะคะ นอกจากการศึกษาแล้วควรฝึกฝนทำโจทย์ให้เยอะๆกันด้วยนะคะเด็กๆ\
+                                                   </div>')
                 }else if(data.status === 'disconnect'){
                     $('.prepare').hide()
                     $('.waitingStart').hide()
@@ -150,13 +152,13 @@
 
                 $('.prepare').show()        
                 $('.message').empty().append('<div class="alert alert-danger" role="alert">\
-                                                Disconnect to game server success...\
+                                                ไม่สามารถติดต่อกับ Server run{Math}run ได้...\
                                               </div>')
             });
             socket.on('connect', function() {
                 clickJoinGame = false;
-                $('.message').empty().append('<div class="alert alert-primary" role="alert">\
-                                                Connect to game server success...\
+                $('.message').empty().append('<div class="alert alert-success" role="alert">\
+                                                ติดต่อกับ Server run{Math}run สำเร็จแล้วว ^^...\
                                               </div>')
             });
         })

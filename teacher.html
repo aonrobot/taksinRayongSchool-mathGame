@@ -26,8 +26,9 @@
                 <img src="/logo.png">
                 <h3>Teacher Control</small></h3>
                 <hr>
-                <div class="alert alert-warning bottom" id="messageAlert" role="alert"></div>
-                <div class="card">
+                <!--<div class="alert alert-warning bottom" id="messageAlert" role="alert"></div>-->
+                <div id="messageAlert"></div>
+                <div class="card control-panel">
                     <h5 class="card-header">แผงควบคุมเกมส์</h5>
                     <div class="card-body">
                         <button class="btn btn-success" id="startBtn">Start Game</button>
@@ -60,7 +61,9 @@
 
         $('#startBtn').bind('click', function(){
             if(studentLength < 2){
-                $('#messageAlert').html("จะสามารถเริ่มเกมส์ได้ต้องมีนักเรียนอยู่อย่างน้อย 2 คนนะครับ")
+                $('#messageAlert').html('<div class="alert alert-warning" role="alert">\
+                                            จะสามารถเริ่มเกมส์ได้ต้องมีนักเรียนอยู่อย่างน้อย 2 คนนะครับ\
+                                        </div>')
             }else{
                 $.ajax({
                     type: 'GET',
@@ -84,7 +87,7 @@
         })
 
         socket.on('message', function(data){
-            $('#messageAlert').html(data.message)
+            $('#messageAlert').html('<div class="alert alert-info" role="alert">' + data.message + '</div>')
         })
 
         socket.on('gameStatus', function(data){
@@ -120,6 +123,21 @@
                                 ')
             }
         })
+
+        socket.on('disconnect', function() {
+            $('.control-panel').hide()
+   
+            $('#messageAlert').html('<div class="alert alert-danger" role="alert">\
+                                            ไม่สามารถติดต่อกับ Server run{Math}run ได้...\
+                                            </div>')
+        });
+        socket.on('connect', function() {
+            $('.control-panel').show()
+            
+            $('#messageAlert').html('<div class="alert alert-success" role="alert">\
+                                            ติดต่อกับ Server run{Math}run สำเร็จแล้วว ^^...\
+                                            </div>')
+        });
     </script>
 </body>
 </html>
