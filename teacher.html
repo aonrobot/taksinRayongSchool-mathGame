@@ -89,12 +89,12 @@
 
         socket.on('gameStatus', function(data){
 
-                if(data.status === 'playing'){
+                if(data.status === true){
                     $('#gameStatus').html("เกมส์กำลังเล่นอยู่")
                     $('#gameStatus').removeClass('text-primary').addClass('text-success')
                     $('#startBtn').hide();
                     $('#stopBtn').show();
-                }else if(data.status === 'stop'){
+                }else{
                     $('#gameStatus').html("เกมส์ใหม่")
                     $('#gameStatus').removeClass('text-success').addClass('text-primary')
                     $('#startBtn').show();
