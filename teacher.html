@@ -10,22 +10,23 @@
 
     <style>
         .footer{
-            position: absolute;
-            bottom: 0;
+            //position: absolute;
+            //bottom: 0;
             width: 100%;
-            height: 60px;
+            //height: 60px;
             line-height: 60px;
             background-color: #f5f5f5;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="margin-bottom:25px;margin-top:25px;">
         <div class="row">
             <div class="col-md-12">
-                <div class="alert alert-warning" id="messageAlert" role="alert"></div>
-                <h3>Trigonometry Game<small> | Teacher Control</small></h3>
+                <img src="/logo.png">
+                <h3>Teacher Control</small></h3>
                 <hr>
+                <div class="alert alert-warning bottom" id="messageAlert" role="alert"></div>
                 <div class="card">
                     <h5 class="card-header">แผงควบคุมเกมส์</h5>
                     <div class="card-body">
@@ -37,12 +38,10 @@
                 <hr>
                 สถานะ <h4 class="text-primary" id="gameStatus">เกมส์ใหม่</h4>
                 <hr>
-                <h4>รายชื่อของนักเรียนที่เข้ามาร่วมเกมส์ในขณะนี้ <small>ทั้งหมดจำนวน <span id="countStudent">0</span> คน</small></h4>
+                <h4>เลขที่ที่เข้ามาร่วมเกมส์ในขณะนี้ <small>ทั้งหมดจำนวน <span id="countStudent">0</span> คน</small></h4>
                 <br>
                 <div class="list-group" id="list2"></div>
                 <div class="row" id="list"></div>
-
-                
             </div>
         </div>
     </div>
@@ -110,8 +109,8 @@
             if(studentLength >= 2) $('#messageAlert').html("")
             for(var i = 0; i < data.list.length; i++){
                 //$('#list').append('<a href="#" class="list-group-item list-group-item-action">' + data.list[i].name + '</a>')
-                $('#list').append('<div class="col-sm-2">\
-                                        <div class="card">\
+                $('#list').append('<div class="col-md-2 col-xs-6">\
+                                        <div class="card" style="margin-bottom:12px">\
                                         <div class="card-body">\
                                             <h5 class="card-title">' + data.list[i].name + '</h5>\
                                             <footer class="blockquote-footer">Student</footer>\
