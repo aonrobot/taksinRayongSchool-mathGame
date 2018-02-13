@@ -28,11 +28,11 @@ var isGameStart = false;
 app.use(express.static('public'));
 
 app.get('/', function(req, res) {
-   res.sendfile('index.html');
+   res.sendfile('./index.html');
 });
 
 app.get('/teacher', function(req, res) {
-    res.sendfile('teacher.html');
+    res.sendfile('./teacher.html');
 });
 
 app.get('/startGame', function(req, res) {
