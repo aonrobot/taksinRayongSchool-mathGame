@@ -69,7 +69,7 @@
                         console.log('Start Game');
                     }
                 });
-                $('#startBtn, #stopBtn').toggle();
+                //$('#startBtn, #stopBtn').toggle();
             }
         })
         $('#stopBtn').bind('click', function(){
@@ -80,7 +80,7 @@
                     console.log('Stop Game');
                 }
             });
-            $('#startBtn, #stopBtn').toggle();
+            //$('#startBtn, #stopBtn').toggle();
         })
 
         socket.on('message', function(data){
@@ -88,8 +88,8 @@
         })
 
         socket.on('gameStatus', function(data){
-
-                if(data.status === true){
+                console.log(data.isGameStart )
+                if(data.isGameStart === true){
                     $('#gameStatus').html("เกมส์กำลังเล่นอยู่")
                     $('#gameStatus').removeClass('text-primary').addClass('text-success')
                     $('#startBtn').hide();

@@ -42,6 +42,7 @@
                     <h3>Waiting for start game...</h3>
                 </div>
                 <div class="start">
+                    <h3 id="player_name"></h3>
                     <p class="text-danger">ห้ามกด refresh หรือ ออกจากหน้านี้นะค่ะ ไม่งั้นจะไม่สามารถเล่นเกมส์ต่อได้เลยนะคะ</p>
                     <div class="problem">
                         <div class="card text-center">
@@ -104,6 +105,7 @@
                         $('.prepare').hide()
                         $('.waitingStart').hide()
                         $('.start').show()
+                        $('#player_name').html('<small>เลขที่</small> ' + name)
                     }
                     
                 }else if(data.status === 'stop'){

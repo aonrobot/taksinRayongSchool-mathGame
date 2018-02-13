@@ -45,7 +45,7 @@ app.get('/startGame', function(req, res) {
 
         isGameStart = true;
         io.of('/student').emit('gameStatus', {status : 'playing'})
-        io.of('/teacher').emit('gameStatus', {status : 'playing'})
+        io.of('/teacher').emit('gameStatus', {isGameStart : isGameStart})
 
         let studentsLength = students.length
         let numberList = []
@@ -78,7 +78,7 @@ app.get('/stopGame', function(req, res) {
     isGameStart = false;
 
     io.of('/student').emit('gameStatus', {status : 'stop'})
-    io.of('/teacher').emit('gameStatus', {status : 'stop'})
+    io.of('/teacher').emit('gameStatus', {isGameStart : isGameStart})
 
     io.of('/teacher').emit('studentList', {list : students})
     //isGameStart = false;
@@ -129,7 +129,7 @@ var teacherNsp = io.of('/teacher');
 teacherNsp.on('connection', function(socket) {
     var session = socket.id;
     console.log(`I'am ${session}`)
-    teacherNsp.emit('gameStatus', {status : isGameStart})   
+    teacherNsp.emit('gameStatus', {isGameStart : isGameStart})   
     teacherNsp.emit('studentList', {list : students})
 });
 
