@@ -294,8 +294,12 @@
                     $('#keyBtn').click(function(){
                         var keyInput = $('#keyInput').val()
                         if(parseInt(keyInput) === pairKey){
+                            document.activeElement.blur();
+                            $("input").blur();
                             endGame();
-                        }else{                       
+                        }else{
+                            document.activeElement.blur();
+                             $("input").blur();                       
                             takeOffPoint(500);
                         }
                     })
