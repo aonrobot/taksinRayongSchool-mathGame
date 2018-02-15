@@ -133,6 +133,7 @@
             name = '';
             isWin = false;
             clickJoinGame = false;
+            $('#keyInput').val('')
         }
 
         function updateTeamStatus(){
@@ -163,6 +164,7 @@
 
             point -= tfPoint;
             updateTeamStatus()
+            $('#keyInput').val('')
 
             console.log('You got ' + point + ' points taken off');
         }
