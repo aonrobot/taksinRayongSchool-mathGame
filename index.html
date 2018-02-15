@@ -53,7 +53,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-lg">เลขที่ 😍</span>
                         </div>
-                        <input id="name" type="number" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                        <input id="name" type="number" pattern="[0-9]*" inputmode="numeric" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
                     </div>
                     <br>
                     <button class="btn btn-primary btn-lg" id="startBtn">เริ่มเล่นเกมส์ 😃</button>
@@ -78,7 +78,7 @@
                                 <div class="problem-answer-key">
                                     <hr>
                                     <h5>ใส่รหัสลับให้ถูกต้อง</h5>
-                                    <input type="number" id="keyInput" class="form-control" aria-label="Large"><br>
+                                    <input type="number" pattern="[0-9]*" inputmode="numeric" id="keyInput" class="form-control" aria-label="Large"><br>
                                     <button id="keyBtn" class="btn btn-success">ยืนยันคำตอบ</button>
                                 </div>
                             </div>
