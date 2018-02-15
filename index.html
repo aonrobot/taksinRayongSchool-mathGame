@@ -38,7 +38,7 @@
         <div class="row">
             <div class="col-md-12" style="margin-top:25px;">
                 <img src="/logo.png" style="width: 48px;display: inline-block;">
-                <h5 style="display: inline-block;">run{Math}run!! Game <small>v2.0.1</small></h5>
+                <h5 style="display: inline-block;">run{Math}run!! Game <small>v2.1.2</small></h5>
                 <hr>
                 <div class="message" id="messageAlert"></div>
                 <div class="pointZone">
@@ -115,7 +115,7 @@
         var point = 10000;
 
         var isWin = false;
-        var startTime = Math.round((new Date()).getTime() / 1000);
+        var startTime;
         var endTime;
 
         var clickJoinGame = false;
@@ -123,6 +123,13 @@
         var myId = "";
         var friendId = [];
         var team_allId = [];
+
+        function clearData(){
+            point = 10000;
+            name = '';
+            isWin = false;
+            clickJoinGame = false;
+        }
 
         function updateTeamStatus(){
             team_allId.forEach(function(e, i){
@@ -243,6 +250,9 @@
                                                    </div>')
                         $('.win').hide()
                     }else{
+
+                        startTime = Math.round((new Date()).getTime() / 1000)
+
                         $('#messageAlert').html("")
                         $('.prepare').hide()
                         $('.waitingStart').hide()
@@ -258,7 +268,8 @@
                     $('.sorry').hide()
                     $('.waitingStart').hide()
                     $('.win').hide()
-                    clickJoinGame = false;
+
+                    clearData()
 
                     $('.prepare').show()
                     $('#messageAlert').html('<div class="alert alert-success" role="alert">\
@@ -268,7 +279,8 @@
                     $('.prepare').hide()
                     $('.waitingStart').hide()
                     $('.win').hide()
-                    clickJoinGame = false;
+                    
+                    clearData()
 
                     $('#messageAlert').html('<div class="alert alert-warning" role="alert">\
                                                     ขณะนี้เกมส์ได้ทำการเริ่มไปแล้ว กรุณารอเล่นในรอบถัดไปนะคร้าา >.<\
@@ -303,7 +315,7 @@
                         }else{
                             document.activeElement.blur();
                              $("input").blur();                       
-                            takeOffPoint(500);
+                            takeOffPoint(350);
                         }
                     })
                     
@@ -359,7 +371,8 @@
                 $('.pointZone').hide()
                 $('.waitingStart').hide()
                 $('.win').hide()
-                clickJoinGame = false;
+                
+                clearData()
 
                 $('.prepare').show()        
                 $('#messageAlert').html('<div class="alert alert-danger" role="alert">\
@@ -367,7 +380,9 @@
                                               </div>')
             });
             socket.on('connect', function() {
-                clickJoinGame = false;
+                
+                clearData()
+
                 $('#messageAlert').html('<div class="alert alert-success" role="alert">\
                                                 ติดต่อกับ Server run{Math}run สำเร็จแล้วว ^^...\
                                               </div>')
