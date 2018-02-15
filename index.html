@@ -139,7 +139,7 @@
                 $('#point').removeClass('text-primary').addClass('text-danger');
                 $('#point').html('-' + point);
                 setTimeout(function(){
-                $('#point').addClass('text-primary').removeClass('text-danger');
+                    $('#point').addClass('text-primary').removeClass('text-danger');
                     $('#point').html(point);
                 }, 570);
             }else{
@@ -148,8 +148,9 @@
         }
         function takeOffPoint(tfPoint){
 
-            swal('รหัสผิด!!','ลองดูใหม่นะคร้า','error')
-            
+            setTimeout(function(){
+                swal('รหัสผิด!!','ลองดูใหม่นะคร้า','error')
+            }, 300);
 
             point -= tfPoint;
             updateTeamStatus()
@@ -159,7 +160,9 @@
 
         function endGame(){
 
-            swal('รหัสถูกต้อง!!','เก่งมาค่ะ','success')
+            setTimeout(function(){
+                swal('รหัสถูกต้อง!!','เก่งมาค่ะ','success')
+            }, 300);
             
             endTime = Math.round((new Date()).getTime() / 1000);
             point = point - (endTime - startTime);
