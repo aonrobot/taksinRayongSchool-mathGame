@@ -19,6 +19,9 @@
     </script>
 
     <style>
+        body {
+            position: static !important;
+        }
         .footer{
             /*position: absolute;
             bottom: 0;*/
@@ -156,9 +159,7 @@
         }
         function takeOffPoint(tfPoint){
 
-            setTimeout(function(){
-                swal('รหัสผิด!!','ลองดูใหม่นะคร้า','error')
-            }, 1000);
+            swal('รหัสผิด!!','ลองดูใหม่นะคร้า','error')
 
             point -= tfPoint;
             updateTeamStatus()
@@ -168,9 +169,7 @@
 
         function endGame(){
 
-            setTimeout(function(){
-                swal('รหัสถูกต้อง!!','เก่งมาค่ะ','success')
-            }, 1000);
+            swal('รหัสถูกต้อง!!','เก่งมาค่ะ','success')
             
             endTime = Math.round((new Date()).getTime() / 1000);
             point = point - (endTime - startTime);
