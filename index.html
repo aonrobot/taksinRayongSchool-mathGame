@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Student | Matthayomtaksinrayong School</title>
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/components/fontawesome/webfont/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/components/fontawesome/webfont/css/fontawesome-all.min.css">    
     
     <script src="/components/socket.io/socket.io.js"></script>
     <script src="/components/mathlex/mathlex.js"></script>
@@ -17,6 +17,9 @@
     <script type="text/javascript"
    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
+
+    <!-- lightsaber Loader -->
+    <link rel="stylesheet" href="/loader/lightsaber/lightsaber.css">   
 
     <style>
         body {
@@ -62,7 +65,16 @@
                     <button class="btn btn-primary btn-lg" id="startBtn">เริ่มเล่นเกมส์ 😃</button>
                 </div>
                 <div class="waitingStart">
-                    <h3>Waiting for start game...</h3>
+                    <div id="loader">
+                        <div class="ls-particles ls-part-1"></div>
+                        <div class="ls-particles ls-part-2"></div>
+                        <div class="ls-particles ls-part-3"></div>
+                        <div class="ls-particles ls-part-4"></div>
+                        <div class="ls-particles ls-part-5"></div>
+                        <div class="lightsaber ls-left ls-green"></div>
+                        <div class="lightsaber ls-right ls-red"></div>
+                    </div>
+                    <h3 class="text-center" style="margin-top:45px;">รอเพื่อนๆก่อนสักครู่นะคะ </h3>
                 </div>
                 <div class="start">
                     <h3 class="player_name"></h3>
