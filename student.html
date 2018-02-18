@@ -3,9 +3,405 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Student | Matthayomtaksinrayong School</title>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/components/fontawesome/webfont/css/fontawesome-all.min.css">    
+    
+    <script src="/components/socket.io/socket.io.js"></script>
+    <script src="/components/mathlex/mathlex.js"></script>
+    <script src="/components/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+
+    <script type="text/javascript"
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+    <!-- lightsaber Loader -->
+    <link rel="stylesheet" href="/loader/lightsaber/lightsaber.css">   
+
+    <style>
+        body {
+            position: static !important;
+        }
+        .footer{
+            /*position: absolute;
+            bottom: 0;*/
+            width: 100%;
+            /*height: 60px;*/
+            line-height: 60px;
+            background-color: #f5f5f5;
+        }
+        .card-title{
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+    </style>
 </head>
 <body>
-    <h3>Student</h3>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" style="margin-top:25px;">
+                <img src="/logo.png" style="width: 48px;display: inline-block;">
+                <h5 style="display: inline-block;">run{Math}run!! Game <small>v2.1.4</small></h5>
+                <hr>
+                <div class="message" id="messageAlert"></div>
+                <div class="pointZone">
+                    <small class="text-right text-secondary" style="float: right;margin: 10px;">คะแนน </small>
+                    <h3 id="point" class="text-right text-primary">10000</h3>                    
+                </div>
+                <hr>
+                <div class="prepare text-center">
+                    <h5>😆กรุณากรอกเลขที่ ก่อนเข้าเล่นค่ะ</h5>
+                    <br>
+                    <div class="input-group input-group-lg">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-lg">เลขที่ 😍</span>
+                        </div>
+                        <input id="name" type="number" pattern="[0-9]*" inputmode="numeric" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                    <br>
+                    <button class="btn btn-primary btn-lg" id="startBtn">เริ่มเล่นเกมส์ 😃</button>
+                </div>
+                <div class="waitingStart">
+                    <div id="loader">
+                        <div class="ls-particles ls-part-1"></div>
+                        <div class="ls-particles ls-part-2"></div>
+                        <div class="ls-particles ls-part-3"></div>
+                        <div class="ls-particles ls-part-4"></div>
+                        <div class="ls-particles ls-part-5"></div>
+                        <div class="lightsaber ls-left ls-green"></div>
+                        <div class="lightsaber ls-right ls-red"></div>
+                    </div>
+                    <h3 class="text-center" style="margin-top:45px;">รอเพื่อนๆก่อนสักครู่นะคะ </h3>
+                </div>
+                <div class="start">
+                    <h3 class="player_name"></h3>
+                    <p class="text-danger">ห้ามกด refresh หรือ ออกจากหน้านี้นะค่ะ ไม่งั้นจะไม่สามารถเล่นเกมส์ต่อได้เลยนะคะ</p>
+                    <div class="problem">
+                        <div class="card text-center">
+                            <div class="card-header" id="problem-header">
+                                ไปจับคู่คำตอบจากเพื่อนๆกันเร็วว 😃😍😆
+                            </div>
+                            <div class="card-body">
+                                <div class="card-title" id="problem-title">\[ \]</div>
+                                <!--<h2 class="card-title" id="problem-title">[ \]</h2>-->
+                                <p class="card-text">________________</p>
+                                <img width="100%" id="problem-img">
+                                <h4 id="problem-key" style="background: #CCC;padding: 8px;margin-top: 25px"></h4>
+                                <div class="problem-answer-key">
+                                    <hr>
+                                    <h5>ใส่รหัสลับให้ถูกต้อง</h5>
+                                    <input type="number" pattern="[0-9]*" inputmode="numeric" id="keyInput" class="form-control" aria-label="Large"><br>
+                                    <button id="keyBtn" class="btn btn-success">ยืนยันคำตอบ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="win">
+                    <div class="jumbotron">
+                        <h1 class="text-success display-4"><i class="fas fa-check-circle"></i> ชนะ!!!</h1>
+                        <p class="lead">ยินดีด้วยนะค่ะ นักเรียนเก่งมากๆเลย และคะแนนที่ได้คือ...</p>
+                        <hr class="my-4">
+                        <h2 class="text-primary" style="font-size:48px" id="win-point"></h2>
+                        <hr class="my-4">
+                        <h5 class="player_name text-secondary text-right"></h5>                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $('.waitingStart').hide()
+        $('.start').hide()
+        $('.pointZone').hide()
+        $('.sorry').hide()
+        $('.win').hide()
+
+        var socket = io('/student');
+        var studentInfo;
+        var name = '';
+        var point = 10000;
+
+        var isWin = false;
+        var startTime;
+        var endTime;
+
+        var clickJoinGame = false;
+        
+        var myId = "";
+        var friendId = [];
+        var team_allId = [];
+
+        function clearData(){
+            point = 10000;
+            updatePointUI(point);
+            name = '';
+            isWin = false;
+            clickJoinGame = false;
+            $('#keyInput').val('')
+        }
+
+        function updateTeamStatus(){
+            team_allId.forEach(function(e, i){
+                console.log('sent update point to ', e.id)
+                socket.emit('update_team_status', {friendId : e.id, isWin: isWin, point : point})            
+                //io().to(e.id).emit('update_team_point', {point : point})
+            })
+        }
+
+        function updatePointUI(point, takeOff){
+            if(takeOff === undefined) takeOff = false
+
+            if(takeOff){
+                $('#point').removeClass('text-primary').addClass('text-danger');
+                $('#point').html('-' + point);
+                setTimeout(function(){
+                    $('#point').addClass('text-primary').removeClass('text-danger');
+                    $('#point').html(point);
+                }, 570);
+            }else{
+                $('#point').html(point);
+            }
+        }
+        function takeOffPoint(tfPoint){
+
+            swal('รหัสผิด!!','ลองดูใหม่นะคร้า','error')
+
+            point -= tfPoint;
+            updateTeamStatus()
+            $('#keyInput').val('')
+
+            console.log('You got ' + point + ' points taken off');
+        }
+
+        function endGame(){
+
+            swal('รหัสถูกต้อง!!','เก่งมากค่ะ','success')
+            
+            endTime = Math.round((new Date()).getTime() / 1000);
+            point = point - (endTime - startTime);
+            isWin = true;
+            updateTeamStatus()
+
+            console.log('Congratulation!!!!', point - (endTime - startTime));
+        }
+
+        $(document).ready(function(){
+
+            //// MathJax
+
+            var mjDisplayBox;
+            MathJax.Hub.Queue(function () {
+                mjDisplayBox = MathJax.Hub.getAllJax('problem-title')[0];
+            });
+
+            var UpdateMath = function(math){
+                $(this).css('color', 'black');
+                if (math.length > 0) {
+                    try {
+                        var tree = MathLex.parse(math),
+                            latex = MathLex.render(tree, 'latex');
+                        MathJax.Hub.Queue(['Text', mjDisplayBox, latex]);
+                    } catch (err) {
+                        $(this).css('color', 'red');
+                    }
+                } else {
+                    MathJax.Hub.Queue(['Text', mjDisplayBox, '']);
+                }
+            }
+
+            /////////////////////////////////////////////////////////////////////////////
+
+            $('#startBtn').bind('click', function(){
+                var id = socket.io.engine.id
+                name = $('#name').val()
+
+                if(name === ""){
+                    $('#messageAlert').html('<div class="alert alert-warning" role="alert">\
+                                                    กรุณาใส่เลขที่ก่อนเข้าเล่นเกมส์นะคะ\
+                                                   </div>')
+                }else{
+
+                    myId = '/student#'+id;
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/checkDupStudent?name=' + name,
+                        success: function(data) {
+                            if(!data.result){
+                                studentInfo = {id : '/student#'+id, name : name}
+                                socket.emit('student', studentInfo)
+                                clickJoinGame = true;
+                                $('.prepare').hide()
+                                $('#messageAlert').html("")
+                                $('.waitingStart').show()
+                            }else{
+                                $('#messageAlert').html('<div class="alert alert-warning" role="alert">\
+                                                    เลขที่นี้มีคนเข้าไปเล่นแล้วค่ะ กรุณาเลือกเลขที่ตัวเองใหม่นะคะ 😢😢😢\
+                                                   </div>')
+                            }
+                        }
+                    });
+                }
+            })
+
+            socket.on('gameStatus', function(data){
+                console.log('Now game status is -> ', data.status)
+                if(data.status === 'playing'){
+
+                    if(!clickJoinGame){
+                        $('.prepare').hide()
+                        $('.waitingStart').hide()
+                        $('#messageAlert').html('<div class="alert alert-warning" role="alert">\
+                                                    ขณะนี้เกมส์ได้ทำการเริ่มไปแล้ว กรุณารอเล่นในรอบถัดไปนะคร้าา >.<\
+                                                   </div>')
+                        $('.win').hide()
+                    }else{
+
+                        startTime = Math.round((new Date()).getTime() / 1000)
+
+                        $('#messageAlert').html("")
+                        $('.prepare').hide()
+                        $('.waitingStart').hide()
+                        $('.start').show()
+                        $('.pointZone').show()
+                        $('.player_name').html('<small>เลขที่ </small> <b>' + name + '</b>')
+                        $('.win').hide()
+                    }
+                    
+                }else if(data.status === 'stop'){
+                    $('.start').hide()
+                    $('.pointZone').hide()
+                    $('.sorry').hide()
+                    $('.waitingStart').hide()
+                    $('.win').hide()
+
+                    clearData()
+
+                    $('.prepare').show()
+                    $('#messageAlert').html('<div class="alert alert-success" role="alert">\
+                                                    เกมส์จบแล้วนะคะ นอกจากการศึกษาแล้วควรฝึกฝนทำโจทย์ให้เยอะๆกันด้วยนะคะเด็กๆ\
+                                                   </div>')
+                }else if(data.status === 'disconnect'){
+                    $('.prepare').hide()
+                    $('.waitingStart').hide()
+                    $('.win').hide()
+                    
+                    clearData()
+
+                    $('#messageAlert').html('<div class="alert alert-warning" role="alert">\
+                                                    ขณะนี้เกมส์ได้ทำการเริ่มไปแล้ว กรุณารอเล่นในรอบถัดไปนะคร้าา >.<\
+                                                   </div>')
+                }
+            })
+
+            socket.on('problem', function(data) {
+                var problem = data.problem
+                var p_header =$('#problem-header')
+                var p_title = $('#problem-title')
+                var p_key = $('#problem-key')
+                var p_img = $('#problem-img')
+                var answer_key_zone = $('.problem-answer-key')
+                var pairKey = data.pairKey;
+                if(problem.type == 'question'){
+                    answer_key_zone.show()
+                    p_header.html('รหัสลับคืออะไรน้าาาาา ไปจับคู่คำตอบจากเพื่อนๆเพื่อหารหัสลับกันเร็ววว 😃😍😆')
+                    console.log('problem title ', problem.question_title)
+                    UpdateMath(problem.question_title)
+                    //p_title.html(problem.question_title)
+                    p_key.hide()
+                    p_img.attr('src', '/question_images/' + problem.question_img)
+                    p_img.show()
+
+                    $('#keyBtn').click(function(){
+                        var keyInput = $('#keyInput').val()
+                        if(parseInt(keyInput) === pairKey){
+                            document.activeElement.blur();
+                            $("input").blur();
+                            endGame();
+                        }else{
+                            document.activeElement.blur();
+                             $("input").blur();                       
+                            takeOffPoint(350);
+                        }
+                    })
+                    
+                }else if(problem.type == 'answer'){
+                    answer_key_zone.hide()
+                    p_header.html('ไปจับคู่คำตอบจากเพื่อนๆกันเร็วว 😃😍😆')
+                    console.log('problem title ', problem.answer_title)                    
+                    UpdateMath(problem.answer_title)
+                    //p_title.html(problem.answer_title)
+                    p_key.show()
+                    p_key.html('<small>รหัสลับคือ : <small> <b><u>' + data.pairKey + '</u></b>')
+                    p_img.attr('src', '')                    
+                    p_img.hide()
+                }
+                
+                team_allId = data.team.students
+                friendId = data.team.students
+
+                friendId = friendId.filter(function(item) { 
+                                return item.id !== myId
+                           })
+
+                /*friendId.forEach(function(e, i){
+                    if(e.id == myId){
+                        friendId.splice(i, 1)
+                    }
+                })*/
+
+                console.log('myid is -> ', myId, 'friendId is -> ', friendId, 'team_allId is -> ', team_allId)
+
+                console.log('pairKey is -> ', data.pairKey)
+                
+            });
+
+            socket.on('team_status', function(data){
+                updatePointUI(data.point, true)
+                point = data.point
+                isWin = data.isWin
+                if(isWin){
+                    $('.win').show()
+                    $('#win-point').html('<i class="fas fa-trophy"></i> ' + point + ' <small class="text-muted">คะแนน</small>')
+                    $('.start').hide()
+                    $('.pointZone').hide()
+                }
+            })
+
+            socket.on('message', function(data){
+                $('#messageAlert').html('<div class="alert alert-info" role="alert">' + data.message + '</div>')
+            })
+
+            socket.on('disconnect', function() {
+                $('.start').hide()
+                $('.pointZone').hide()
+                $('.waitingStart').hide()
+                $('.win').hide()
+                
+                clearData()
+
+                $('.prepare').show()        
+                $('#messageAlert').html('<div class="alert alert-danger" role="alert">\
+                                                ไม่สามารถติดต่อกับ Server run{Math}run ได้...\
+                                              </div>')
+            });
+            socket.on('connect', function() {
+                
+                clearData()
+
+                $('#messageAlert').html('<div class="alert alert-success" role="alert">\
+                                                ติดต่อกับ Server run{Math}run สำเร็จแล้วว ^^...\
+                                              </div>')
+            });
+        })
+   </script>
 </body>
 </html>

@@ -34,6 +34,10 @@ app.get('/', function(req, res) {
    res.sendfile('./index.html');
 });
 
+app.get('/play', function(req, res) {
+    res.sendfile('./student.html');
+ });
+
 app.get('/teacher', function(req, res) {
     res.sendfile('./teacher.html');
 });
@@ -68,7 +72,7 @@ app.get('/startGame', function(req, res) {
         //Swap position of students
         while(numberList.length < studentsLength){
             let randomNum = Math.floor((Math.random() * studentsLength));
-            if(numberList.indexOf(randomNum) < 0) numberList.push(randomNum)
+            if(numberList.indexOf(randomNum) < 0) numberList.push(randomNum);
         }
 
         

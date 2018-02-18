@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'TH Sarabun New';
+    src: url('/fonts/THSarabunNew.woff2') format('woff2'),
+        url('/fonts/THSarabunNew.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    font-family: 'TH Sarabun New'!important
+}
+
+.brand .h1-seo{
+    font-size: 4.58em;
+}
+
+.runmrun-text-tran{    
+    color: rgba(255, 255, 255, 0.8);
+}
