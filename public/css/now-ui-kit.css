@@ -5151,14 +5151,14 @@ Created using IcoMoon - icomoon.io
 }
 
 .index-page .page-header .container>.content-center {
-    top: 37%;
+    top: 45%; /*37*/
 }
 
 .index-page .page-header .category-absolute {
     position: absolute;
-    top: 85vh;
-    margin-top: -60px;
-    padding: 0 15px;
+    top: 100vh;
+    /*margin-top: -60px;*/
+    padding: 0 15px 0 0;
     width: 100%;
     color: rgba(255, 255, 255, 0.5);
 }
