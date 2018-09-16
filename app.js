@@ -5,7 +5,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 var Promise = require('promise');
 
-const PORT = 80;
+const PORT = 8088;
 const HOST = 'localhost';
 
 const db = mysql.createConnection({
@@ -247,5 +247,5 @@ teacherNsp.on('connection', function(socket) {
 console.log('listening on localhost:3000');*/
 
 http.listen(PORT, function() {    
-    console.log('listening on localhost:80');
+    console.log('listening on localhost:' + PORT);
 });
