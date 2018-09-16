@@ -5,14 +5,14 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 var Promise = require('promise');
 
-const PORT = 8088;
+const PORT = 80;
 const HOST = 'localhost';
 
 const db = mysql.createConnection({
-    host        :   'taksindbinstance.czv8vo5bfekg.ap-southeast-1.rds.amazonaws.com',
-    user        :   'aonrobot',
-    password    :   'AONBOtBOt.cpp',
-    database    :   'taksinmath',
+    host        :   process.env.DB_HOST,
+    user        :   process.env.DB_USER,
+    password    :   process.env.DB_PASSWORD,
+    database    :   process.env.DB_NAME,
     port        :   3306
 });
 
